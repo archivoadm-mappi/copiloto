@@ -242,8 +242,25 @@ let CHAT_HISTORY = [];
 
 function loadStored(){
   try{
-    const raw = localStorage.getItem('historia_analysis');
-    if(raw){ ANALYSIS = JSON.parse(raw); HC_TEXT = ANALYSIS.hc_text||''; renderAll(); }
+    const raw = localStorage.getItem("historia_analysis");
+    if(raw){
+      const saved = JSON.parse(raw);
+      const savedDate = saved.fecha_analisis ? new Date(saved.fecha_analisis) : null;
+      const diffHoras = savedDate ? (new Date() - savedDate)/(1000*60*60) : 999;
+      if(diffHoras < 12){
+        ANALYSIS = saved; HC_TEXT = saved.hc_text||""; renderAll();
+      } else {
+        HC_TEXT = saved.hc_text||"";
+        if(HC_TEXT){
+          document.getElementById("file-pill").style.display="flex";
+          document.getElementById("file-name-txt").textContent="Historia clínica guardada (clic para actualizar)";
+          const b=document.createElement("div");
+          b.style.cssText="background:var(--warn-l);border:1px solid #FAC775;border-radius:var(--rs);padding:10px 14px;font-size:13px;color:var(--warn);margin-bottom:12px;line-height:1.5";
+          b.innerHTML="<i class="ti ti-clock"></i> Tu análisis anterior tiene más de 12 horas. Toca Analizar para actualizarlo con la fecha de hoy.";
+          setTimeout(()=>{ const btn=document.getElementById("analyze-btn"); if(btn&&btn.parentNode) btn.parentNode.insertBefore(b,btn); },100);
+        }
+      }
+    }
   }catch(e){}
 }
 
@@ -303,66 +320,58 @@ async function analyzeHC(){
   loadInt=setInterval(()=>{ loadIdx=Math.min(loadIdx+1,loadMsgs.length-1); document.getElementById('loading-msg').textContent=loadMsgs[loadIdx]; },2000);
   fillInt=setInterval(()=>{ fillPct=Math.min(fillPct+1.5,90); document.getElementById('loading-fill').style.width=fillPct+'%'; },200);
 
-  const prompt = `Eres el motor de análisis de HistorIA, una app de salud para pacientes colombianos. Analiza la siguiente historia clínica y devuelve ÚNICAMENTE un objeto JSON válido, sin backticks, sin texto adicional.
+  // Fecha actual dinámica — la IA siempre usa HOY como referencia
+  const hoy = new Date();
+  const optsL = {day:'numeric',month:'long',year:'numeric'};
+  const fechaHoy = hoy.toLocaleDateString('es-CO', optsL);
+  const mes1 = new Date(hoy); mes1.setMonth(mes1.getMonth()+1);
+  const mes2 = new Date(hoy); mes2.setMonth(mes2.getMonth()+2);
+  const mes3 = new Date(hoy); mes3.setMonth(mes3.getMonth()+3);
+  const ff = d => d.toLocaleDateString('es-CO', optsL);
 
-Historia clínica:
-${HC_TEXT.substring(0,10000)}
-
-Devuelve exactamente este JSON:
-{
-  "nombre": "nombre completo",
-  "cedula": "número de cédula",
-  "edad": "41 años",
-  "sexo": "Femenino",
-  "eps": "nombre de la EPS",
-  "barrio": "barrio o dirección",
-  "estado_civil": "Casado/a",
-  "profesion": "ocupación",
-  "descripcion_general": "Frase completa tipo: 41 años · Eres una mujer en buen estado de salud física con signos vitales normales, pero tienes pendientes importantes como... (2-3 oraciones cálidas y específicas)",
-  "antropometria": {
-    "peso": "58 kg",
-    "talla": "159 cm",
-    "imc": "23.0",
-    "imc_estado": "Peso normal",
-    "perimetro_abdominal": "87 cm"
-  },
-  "ultima_cita": {
-    "fecha": "28 ene 2026",
-    "presion": "110/70",
-    "presion_estado": "ok",
-    "colesterol": "218",
-    "colesterol_estado": "warn",
-    "glucosa": "78",
-    "glucosa_estado": "ok",
-    "hemoglobina": "12.6",
-    "hemoglobina_estado": "warn"
-  },
-  "alertas": [
-    {"nivel":"urgente","titulo":"Título corto","descripcion":"Explicación en lenguaje cotidiano, 2-3 oraciones. Específico para esta persona."},
-    {"nivel":"atencion","titulo":"...","descripcion":"..."},
-    {"nivel":"ok","titulo":"...","descripcion":"..."}
-  ],
-  "consejos": [
-    {"tipo":"alerta","icono":"ti-bell","titulo":"Para cerrar esta alerta","descripcion":"Qué debe hacer concretamente para resolver una alerta pendiente.","fecha_control":"Pide cita antes del 28 feb 2026"},
-    {"tipo":"comida","icono":"ti-salad","titulo":"Alimentación para tu caso","descripcion":"Consejo específico de alimentación basado en su historial real.","fecha_control":""},
-    {"tipo":"ejercicio","icono":"ti-run","titulo":"Ejercicio recomendado","descripcion":"Rutina específica según su condición.","fecha_control":""},
-    {"tipo":"control","icono":"ti-calendar","titulo":"Próximo control médico","descripcion":"Cuándo y para qué debe pedir cita.","fecha_control":"Agenda cita en los próximos 30 días"},
-    {"tipo":"mental","icono":"ti-brain","titulo":"Salud mental","descripcion":"Consejo específico relacionado con su condición de ansiedad u otras.","fecha_control":""}
-  ],
-  "historial": [
-    {
-      "fecha": "28 ene 2026",
-      "tipo": "Consulta general",
-      "titulo": "Diagnóstico y medicamentos",
-      "descripcion": "Resumen de qué pasó en esa consulta en lenguaje simple.",
-      "diagnosticos": ["Hipercolesterolemia", "Trastorno mixto ansiedad"],
-      "medicamentos": ["Sertralina 25mg", "Trazodona"],
-      "recomendaciones": "Resumen de las recomendaciones que le dieron en esa consulta."
-    }
-  ]
-}
-
-IMPORTANTE: usa lenguaje colombiano cotidiano, cálido. Extrae TODOS los datos reales del documento. El historial debe incluir TODAS las consultas encontradas ordenadas de más reciente a más antigua.`;
+  const prompt = "Eres el motor de análisis de HistorIA, app de salud para pacientes colombianos.\n\n" +
+    "FECHA DE HOY: " + fechaHoy + "\n\n" +
+    "REGLA CRÍTICA — MANEJO DEL TIEMPO:\n" +
+    "La historia clínica muestra consultas del PASADO. Son antecedentes. Tu trabajo es:\n" +
+    "1. Analizar qué condiciones tiene el paciente ACTIVAMENTE HOY basado en esos antecedentes.\n" +
+    "2. Identificar controles o exámenes ordenados que NUNCA aparecen resueltos — esos son alertas urgentes HOY.\n" +
+    "3. NUNCA generes fechas pasadas. Fechas futuras de referencia: " + ff(mes1) + ", " + ff(mes2) + ", " + ff(mes3) + ".\n" +
+    "4. Si un control lleva meses pendiente, la alerta dice: 'Esto lleva X meses sin resolverse — agenda esta semana.'\n\n" +
+    "Devuelve ÚNICAMENTE JSON válido sin backticks ni texto extra.\n\n" +
+    "Historia clínica:\n" + HC_TEXT.substring(0,10000) + "\n\n" +
+    "JSON a devolver:\n" +
+    '{\n' +
+    '  "nombre": "nombre completo",\n' +
+    '  "cedula": "número de cédula",\n' +
+    '  "edad": "41 años",\n' +
+    '  "sexo": "Femenino o Masculino",\n' +
+    '  "eps": "nombre EPS",\n' +
+    '  "barrio": "barrio o dirección",\n' +
+    '  "estado_civil": "estado civil",\n' +
+    '  "profesion": "ocupación",\n' +
+    '  "descripcion_general": "Ej: 41 años · Eres una mujer con buena salud general pero con condiciones activas que necesitan atención hoy. (2-3 oraciones cálidas orientadas al presente con las condiciones más importantes)",\n' +
+    '  "antropometria": {"peso":"58 kg","talla":"159 cm","imc":"23.0","imc_estado":"Peso normal","perimetro_abdominal":"87 cm"},\n' +
+    '  "ultima_cita": {"fecha":"fecha real","presion":"110/70","presion_estado":"ok","colesterol":"218","colesterol_estado":"warn","glucosa":"78","glucosa_estado":"ok","hemoglobina":"12.6","hemoglobina_estado":"warn"},\n' +
+    '  "alertas": [\n' +
+    '    {"nivel":"urgente o atencion o ok","titulo":"Condición activa HOY","descripcion":"Qué tiene HOY, cuándo se detectó, si hay pendiente sin resolver y qué debe hacer AHORA. Ej: En enero 2026 te ordenaron un examen de tiroides que nunca aparece en tu historial. Hoy, 4 meses después, sigue sin resolverse. Agenda esa cita esta semana."}\n' +
+    '  ],\n' +
+    '  "consejos": [\n' +
+    '    {"tipo":"alerta","icono":"ti-bell","titulo":"Pendiente urgente","descripcion":"Acción concreta con contexto temporal de cuánto lleva pendiente.","fecha_control":"Agenda antes del ' + ff(mes1) + '"},\n' +
+    '    {"tipo":"comida","icono":"ti-salad","titulo":"Alimentación para tu caso","descripcion":"Consejo específico según condiciones reales.","fecha_control":""},\n' +
+    '    {"tipo":"ejercicio","icono":"ti-run","titulo":"Ejercicio según tu condición","descripcion":"Rutina segura según condiciones reportadas.","fecha_control":""},\n' +
+    '    {"tipo":"control","icono":"ti-calendar","titulo":"Controles médicos pendientes","descripcion":"Qué citas pedir y para qué, priorizando las que llevan más tiempo pendientes.","fecha_control":"Primera cita: antes del ' + ff(mes1) + '"},\n' +
+    '    {"tipo":"mental","icono":"ti-brain","titulo":"Bienestar emocional hoy","descripcion":"Consejo práctico para condiciones de salud mental activas.","fecha_control":""}\n' +
+    '  ],\n' +
+    '  "historial": [\n' +
+    '    {"fecha":"fecha real","tipo":"Tipo de consulta","titulo":"Resumen corto","descripcion":"Qué pasó en lenguaje simple.","diagnosticos":["diagnóstico 1"],"medicamentos":["medicamento dosis"],"recomendaciones":"Qué le dijeron que hiciera."}\n' +
+    '  ]\n' +
+    '}\n\n' +
+    "REGLAS FINALES:\n" +
+    "- Lenguaje colombiano, cálido. Sin términos médicos sin explicar.\n" +
+    "- Fechas de control SIEMPRE futuras a partir del " + fechaHoy + ".\n" +
+    "- Si algo estaba pendiente y no se resolvió, es alerta ACTIVA HOY con urgencia explícita.\n" +
+    "- Incluye TODAS las consultas del historial, de más reciente a más antigua.\n" +
+    "- Las alertas hablan de lo que el paciente tiene y debe hacer HOY.";
 
   try{
     const res = await fetch('/api/claude',{
@@ -376,6 +385,7 @@ IMPORTANTE: usa lenguaje colombiano cotidiano, cálido. Extrae TODOS los datos r
     const clean = raw.replace(/```json|```/g,'').trim();
     ANALYSIS = JSON.parse(clean);
     ANALYSIS.hc_text = HC_TEXT;
+    ANALYSIS.fecha_analisis = new Date().toISOString();
     localStorage.setItem('historia_analysis',JSON.stringify(ANALYSIS));
     clearInterval(loadInt); clearInterval(fillInt);
     document.getElementById('loading-fill').style.width='100%';
