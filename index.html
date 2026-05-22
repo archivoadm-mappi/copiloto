@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copiloto — Tu salud, clara.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FAFAF7;--surface:#FFFFFF;--surface2:#F5F4EF;
+  --ink:#1A1915;--ink2:#6B6A63;--ink3:#A09F98;
+  --accent:#1D6B4F;--accent-l:#E8F5EF;--accent-d:#0F4432;
+  --warn:#B85C00;--warn-l:#FFF0E0;
+  --danger:#A32D2D;--danger-l:#FCEBEB;
+  --border:#E8E7E0;--border2:#D4D3CC;
+  --r:14px;--rs:8px;
+}
+body{font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background:var(--bg);min-height:100vh}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:300;letter-spacing:-.02em}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;border:none;transition:all .18s}
+input,textarea,select{font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid var(--border);border-radius:var(--rs);padding:10px 14px;width:100%;background:var(--surface);color:var(--ink);outline:none;transition:border .15s}
+input:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical}
+
+.app{max-width:700px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--accent);letter-spacing:-.03em}
+.nav-logo span{font-weight:300;font-style:italic}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:6px 14px;border-radius:20px;background:transparent;color:var(--ink2);font-size:13px;border:none;transition:all .15s}
+.nav-tab:hover{background:var(--surface2)}
+.nav-tab.active{background:var(--accent);color:#fff}
+
+/* SCREENS */
+.screen{display:none;padding:24px;flex:1}
+.screen.active{display:block}
+
+/* HOME */
+.hero{padding:20px 0 16px;text-align:center}
+.hero h1{font-size:32px;color:var(--ink);margin-bottom:10px}
+.hero p{color:var(--ink2);font-size:15px;max-width:420px;margin:0 auto;line-height:1.6}
+
+.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:32px;text-align:center;margin:16px 0;cursor:pointer;transition:all .2s;background:var(--surface)}
+.upload-zone:hover{border-color:var(--accent);background:var(--accent-l)}
+.upload-zone i{font-size:32px;color:var(--ink3);margin-bottom:10px;display:block}
+.upload-zone p{font-size:14px;color:var(--ink2);margin:0 0 4px}
+.upload-zone span{font-size:12px;color:var(--ink3)}
+
+.btn-primary{background:var(--accent);color:#fff;padding:13px 24px;border-radius:var(--rs);font-weight:500;width:100%;font-size:15px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:var(--accent-d)}
+.btn-primary:disabled{background:var(--ink3);cursor:not-allowed}
+.btn-sec{background:var(--surface);color:var(--ink);padding:10px 18px;border-radius:var(--rs);border:1px solid var(--border2);font-size:13px}
+.btn-sec:hover{background:var(--surface2)}
+.btn-danger{background:var(--danger-l);color:var(--danger);padding:8px 16px;border-radius:var(--rs);border:1px solid #F7C1C1;font-size:13px}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:12px 0;color:var(--ink3);font-size:13px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px 8px;text-align:center}
+.stat-v{font-size:17px;font-weight:500;margin:4px 0 2px}
+.stat-l{font-size:11px;color:var(--ink3)}
+.stat-g{color:#1D6B4F}.stat-a{color:#B85C00}.stat-r{color:#A32D2D}
+
+/* ALERT CARDS */
+.alert-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;display:flex;gap:14px}
+.alert-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-r{background:#E24B4A}.dot-a{background:#EF9F27}.dot-g{background:#1D9E75}
+.alert-card h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:5px}
+.alert-card p{font-size:13px;color:var(--ink2);line-height:1.6}
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:12px;margin-top:8px;font-weight:500}
+.badge-r{background:var(--danger-l);color:var(--danger)}
+.badge-a{background:var(--warn-l);color:var(--warn)}
+.badge-g{background:var(--accent-l);color:var(--accent)}
+
+/* TIPS */
+.tip-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+.tip-card i{font-size:20px;color:var(--accent);flex-shrink:0;margin-top:2px}
+.tip-card h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:4px}
+.tip-card p{font-size:13px;color:var(--ink2);line-height:1.6}
+
+/* TIMELINE */
+.tl-wrap{padding:4px 0}
+.tl-item{display:flex;gap:16px;padding:14px 0}
+.tl-item:not(:last-child){border-bottom:1px solid var(--border)}
+.tl-left{min-width:68px;text-align:right;padding-top:2px}
+.tl-date{font-size:11px;color:var(--ink3);line-height:1.5}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:4px}
+.tl-dot2{width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--accent-l);flex-shrink:0}
+.tl-line{width:1px;flex:1;background:var(--border);margin-top:4px;min-height:20px}
+.tl-content{flex:1;padding-top:0}
+.tl-content h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:4px}
+.tl-content p{font-size:13px;color:var(--ink2);line-height:1.6}
+
+/* CHAT */
+.chat-area{background:var(--surface2);border-radius:var(--r);padding:16px;min-height:260px;max-height:420px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px}
+.msg-bot{align-self:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:12px 16px;font-size:14px;line-height:1.6;max-width:88%;color:var(--ink)}
+.msg-user{align-self:flex-end;background:var(--accent);border-radius:12px 12px 4px 12px;padding:12px 16px;font-size:14px;line-height:1.6;max-width:88%;color:#fff}
+.msg-loading{align-self:flex-start;padding:12px 16px;font-size:14px;color:var(--ink3);font-style:italic}
+.chat-input-row{display:flex;gap:10px}
+.chat-input-row input{flex:1}
+.send-btn{background:var(--accent);color:#fff;padding:10px 20px;border-radius:var(--rs);font-size:14px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.send-btn:hover{background:var(--accent-d)}
+.quick-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--ink2);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l)}
+
+/* SECTION LABEL */
+.sec-label{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+
+/* PROFILE */
+.profile-badge{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:18px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--accent-l);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--accent);flex-shrink:0}
+.profile-info h2{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;margin-bottom:3px}
+.profile-info p{font-size:12px;color:var(--ink2);line-height:1.5}
+
+/* LOADING */
+.loading-area{text-align:center;padding:40px 24px}
+.loading-area i{font-size:36px;color:var(--accent)}
+.loading-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0 10px}
+.loading-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .5s ease}
+.loading-txt{font-size:14px;color:var(--ink2)}
+
+.disclaimer{font-size:11px;color:var(--ink3);font-style:italic;margin-top:16px;line-height:1.6;text-align:center}
+
+/* API KEY AREA */
+.api-note{background:var(--warn-l);border:1px solid #FAC775;border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--warn);margin-bottom:16px;line-height:1.6}
+.api-note a{color:var(--warn);font-weight:500}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink3);font-size:14px}
+.empty-state i{font-size:36px;display:block;margin-bottom:12px;color:var(--border2)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="nav">
+    <div class="nav-logo">copi<span>loto</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="goTo('home',this)"><i class="ti ti-home"></i> Inicio</button>
+      <button class="nav-tab" onclick="goTo('alertas',this)"><i class="ti ti-bell"></i> Alertas</button>
+      <button class="nav-tab" onclick="goTo('consejos',this)"><i class="ti ti-heart"></i> Consejos</button>
+      <button class="nav-tab" onclick="goTo('chat',this)"><i class="ti ti-message"></i> Chat</button>
+      <button class="nav-tab" onclick="goTo('historial',this)"><i class="ti ti-timeline"></i> Historial</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="s-home" class="screen active">
+    <div class="hero">
+      <h1>Tu salud, clara.</h1>
+      <p>Sube tu historia clínica y tu copiloto la analiza, detecta alertas y te acompaña día a día.</p>
+    </div>
+
+    <div id="config-area" style="display:none"></div>
+
+    <div id="upload-area">
+      <div class="upload-zone" onclick="document.getElementById('file-in').click()" id="drop-zone">
+        <i class="ti ti-file-medical"></i>
+        <p>Arrastra tu historia clínica aquí</p>
+        <span>PDF, TXT, o imagen · o haz clic para seleccionar</span>
+      </div>
+      <input type="file" id="file-in" accept=".pdf,.txt,.jpg,.jpeg,.png" style="display:none" onchange="handleFile(event)">
+      <div id="file-name-pill" style="display:none;align-items:center;gap:8px;background:var(--accent-l);border:1px solid #9FE1CB;border-radius:var(--rs);padding:8px 14px;margin-bottom:10px;font-size:13px;color:var(--accent-d)">
+        <i class="ti ti-file-check" style="font-size:16px"></i>
+        <span id="file-name-txt">archivo.txt</span>
+        <button onclick="clearFile()" style="margin-left:auto;background:none;color:var(--ink3);font-size:18px;line-height:1">×</button>
+      </div>
+
+      <div class="divider">o pega el texto directamente</div>
+
+      <textarea id="paste-area" placeholder="Pega aquí el texto de tu historia clínica..." style="min-height:140px"></textarea>
+
+      <button class="btn-primary" onclick="analyzeHC()" id="analyze-btn">
+        <i class="ti ti-sparkles"></i> Analizar con IA
+      </button>
+    </div>
+
+    <div id="loading-area" style="display:none" class="loading-area">
+      <i class="ti ti-loader" style="animation:spin 1s linear infinite"></i>
+      <div class="loading-bar"><div class="loading-fill" id="loading-fill"></div></div>
+      <p class="loading-txt" id="loading-msg">Leyendo tu historia clínica...</p>
+    </div>
+
+    <div id="result-home" style="display:none">
+      <div class="profile-badge">
+        <div class="avatar" id="av-initials">--</div>
+        <div class="profile-info">
+          <h2 id="profile-name">Cargando...</h2>
+          <p id="profile-sub"></p>
+        </div>
+        <button class="btn-danger" style="margin-left:auto;flex-shrink:0" onclick="resetApp()">
+          <i class="ti ti-refresh"></i> Nueva historia
+        </button>
+      </div>
+      <div class="stats-row" id="stats-row"></div>
+      <p style="font-size:13px;color:var(--ink2);text-align:center;margin-bottom:8px">Explora las alertas, consejos y habla con tu copiloto.</p>
+      <div class="disclaimer">Esta app orienta e informa. Siempre consulta a tu médico antes de tomar decisiones de tratamiento.</div>
+    </div>
+  </div>
+
+  <!-- ALERTAS -->
+  <div id="s-alertas" class="screen">
+    <div class="sec-label">Lo que debes saber sobre tu salud</div>
+    <div id="alertas-list">
+      <div class="empty-state"><i class="ti ti-bell-off"></i>Primero analiza tu historia clínica en Inicio</div>
+    </div>
+  </div>
+
+  <!-- CONSEJOS -->
+  <div id="s-consejos" class="screen">
+    <div class="sec-label">Recomendaciones personalizadas</div>
+    <div id="consejos-list">
+      <div class="empty-state"><i class="ti ti-heart-off"></i>Primero analiza tu historia clínica en Inicio</div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="s-chat" class="screen">
+    <div class="sec-label">Habla con tu copiloto de salud</div>
+    <div class="quick-chips" id="quick-chips">
+      <span class="chip" onclick="sendQ('¿Cuáles son mis pendientes de salud más urgentes?')">Mis pendientes urgentes</span>
+      <span class="chip" onclick="sendQ('¿Qué preguntas debo hacerle a mi médico en la próxima cita?')">Prepararme para consulta</span>
+      <span class="chip" onclick="sendQ('¿Qué alimentos debo evitar según mi historial?')">Qué comer</span>
+      <span class="chip" onclick="sendQ('¿Cuáles son mis alergias registradas?')">Mis alergias</span>
+    </div>
+    <div class="chat-area" id="chat-area">
+      <div class="msg-bot">Hola 👋 Soy tu copiloto de salud. Cuando analices tu historia clínica en <strong>Inicio</strong>, podré responder preguntas personalizadas sobre tu salud.</div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-q" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="send-btn" onclick="sendChat()"><i class="ti ti-send"></i> Enviar</button>
+    </div>
+    <p class="disclaimer" style="margin-top:12px">El copiloto informa y orienta. No reemplaza la consulta médica profesional.</p>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div id="s-historial" class="screen">
+    <div class="sec-label">Tu línea de tiempo médica</div>
+    <div id="historial-list" class="tl-wrap">
+      <div class="empty-state"><i class="ti ti-timeline-event-exclamation"></i>Primero analiza tu historia clínica en Inicio</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let HC_TEXT = '';
+let ANALYSIS = null;
+let CHAT_HISTORY = [];
+
+// Cargar análisis guardado
+function loadStored(){
+  try{
+    const raw = localStorage.getItem('copiloto_analysis');
+    if(raw){
+      ANALYSIS = JSON.parse(raw);
+      HC_TEXT = ANALYSIS.hc_text || '';
+      renderAll();
+    }
+    const key = localStorage.getItem('copiloto_apikey');
+    if(key) document.getElementById('api-key-input').value = key;
+  }catch(e){}
+}
+
+function getApiKey(){ return 'proxy'; }
+
+function goTo(name, btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('s-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function handleFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  document.getElementById('file-name-txt').textContent = file.name;
+  document.getElementById('file-name-pill').style.display = 'flex';
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('paste-area').value = ev.target.result;
+  };
+  reader.readAsText(file);
+}
+
+function clearFile(){
+  document.getElementById('file-in').value = '';
+  document.getElementById('file-name-pill').style.display = 'none';
+  document.getElementById('paste-area').value = '';
+}
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.style.borderColor='var(--accent)'; dz.style.background='var(--accent-l)'; });
+dz.addEventListener('dragleave', ()=>{ dz.style.borderColor=''; dz.style.background=''; });
+dz.addEventListener('drop', e=>{ e.preventDefault(); dz.style.borderColor=''; dz.style.background=''; const f=e.dataTransfer.files[0]; if(f){ document.getElementById('file-in').files = e.dataTransfer.files; handleFile({target:{files:e.dataTransfer.files}}); } });
+
+const loadMsgs = [
+  'Leyendo tu historia clínica...', 'Identificando diagnósticos...',
+  'Detectando alertas importantes...', 'Generando consejos personalizados...',
+  'Construyendo tu línea de tiempo...', 'Casi listo...'
+];
+let loadIdx = 0;
+let loadInt, fillInt;
+
+async function analyzeHC(){
+  const txt = document.getElementById('paste-area').value.trim();
+  if(!txt){ alert('Pega el texto de tu historia clínica o sube un archivo.'); return; }
+  HC_TEXT = txt;
+
+  document.getElementById('upload-area').style.display='none';
+  document.getElementById('loading-area').style.display='block';
+
+  loadIdx = 0;
+  let fillPct = 0;
+  document.getElementById('loading-msg').textContent = loadMsgs[0];
+  document.getElementById('loading-fill').style.width = '0%';
+
+  loadInt = setInterval(()=>{
+    loadIdx = Math.min(loadIdx+1, loadMsgs.length-1);
+    document.getElementById('loading-msg').textContent = loadMsgs[loadIdx];
+  }, 2000);
+
+  fillInt = setInterval(()=>{
+    fillPct = Math.min(fillPct + 2, 90);
+    document.getElementById('loading-fill').style.width = fillPct+'%';
+  }, 200);
+
+  const prompt = `Eres el motor de análisis de un copiloto de salud para pacientes. Analiza la siguiente historia clínica y devuelve ÚNICAMENTE un objeto JSON válido, sin backticks, sin texto adicional, sin explicaciones.
+
+Historia clínica:
+${txt.substring(0,9000)}
+
+Devuelve exactamente este JSON (respeta la estructura):
+{
+  "nombre": "nombre completo del paciente",
+  "edad": "edad en texto ej: 41 años",
+  "resumen": "2 oraciones sobre el estado general de salud en lenguaje simple",
+  "stats": [
+    {"label":"Presión","valor":"110/70","estado":"ok"},
+    {"label":"Colesterol","valor":"218","estado":"warn"},
+    {"label":"Glucosa","valor":"78","estado":"ok"},
+    {"label":"IMC","valor":"23","estado":"ok"}
+  ],
+  "alertas": [
+    {"nivel":"urgente","titulo":"Título corto claro","descripcion":"Explicación en lenguaje cotidiano, cálido, sin términos médicos complejos. 2-3 oraciones. Específico para ESTA persona."},
+    {"nivel":"atencion","titulo":"...","descripcion":"..."},
+    {"nivel":"ok","titulo":"...","descripcion":"..."}
+  ],
+  "consejos": [
+    {"icono":"ti-salad","titulo":"Título del consejo","descripcion":"Consejo personalizado y específico para esta persona según su historial. 2 oraciones en lenguaje simple."},
+    {"icono":"ti-run","titulo":"...","descripcion":"..."},
+    {"icono":"ti-moon","titulo":"...","descripcion":"..."},
+    {"icono":"ti-calendar","titulo":"...","descripcion":"..."},
+    {"icono":"ti-pill","titulo":"...","descripcion":"..."}
+  ],
+  "historial": [
+    {"fecha":"Mar 2026","titulo":"Tipo de consulta","descripcion":"Resumen breve de esa consulta"},
+    {"fecha":"Ene 2026","titulo":"...","descripcion":"..."}
+  ]
+}
+
+IMPORTANTE: usa lenguaje colombiano cotidiano, cálido y empático. Las alertas deben ser accionables y específicas para esta persona. Los consejos deben basarse en el historial real, no genéricos.`;
+
+  try{
+    const res = await fetch('/api/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2500,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'Error API'); }
+    const data = await res.json();
+    const raw = data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
+    const clean = raw.replace(/```json|```/g,'').trim();
+    ANALYSIS = JSON.parse(clean);
+    ANALYSIS.hc_text = txt;
+    localStorage.setItem('copiloto_analysis', JSON.stringify(ANALYSIS));
+    clearInterval(loadInt); clearInterval(fillInt);
+    document.getElementById('loading-fill').style.width = '100%';
+    setTimeout(()=>{
+      document.getElementById('loading-area').style.display='none';
+      renderAll();
+    }, 400);
+  }catch(err){
+    clearInterval(loadInt); clearInterval(fillInt);
+    document.getElementById('loading-area').style.display='none';
+    document.getElementById('upload-area').style.display='block';
+    alert('Error: ' + err.message + '\n\nVerifica que tu API key sea correcta.');
+  }
+}
+
+function renderAll(){
+  if(!ANALYSIS) return;
+  const a = ANALYSIS;
+
+  // Profile
+  const words = (a.nombre||'Paciente').split(' ');
+  const initials = words.slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  document.getElementById('av-initials').textContent = initials;
+  document.getElementById('profile-name').textContent = a.nombre || 'Paciente';
+  document.getElementById('profile-sub').textContent = (a.edad||'') + ' · ' + (a.resumen||'').substring(0,80)+'...';
+  document.getElementById('result-home').style.display='block';
+  document.getElementById('upload-area').style.display='none';
+  document.getElementById('config-area').style.display='none';
+
+  // Stats
+  const stateClass={ok:'stat-g',warn:'stat-a',danger:'stat-r'};
+  document.getElementById('stats-row').innerHTML=(a.stats||[]).map(s=>`
+    <div class="stat-c">
+      <div class="stat-l">${s.label}</div>
+      <div class="stat-v ${stateClass[s.estado]||'stat-a'}">${s.valor}</div>
+    </div>`).join('');
+
+  // Alertas
+  const dotC={urgente:'dot-r',atencion:'dot-a',ok:'dot-g'};
+  const badgeC={urgente:'badge-r',atencion:'badge-a',ok:'badge-g'};
+  const badgeT={urgente:'Requiere acción',atencion:'Seguimiento necesario',ok:'Al día'};
+  document.getElementById('alertas-list').innerHTML=(a.alertas||[]).map(al=>`
+    <div class="alert-card">
+      <div class="alert-dot ${dotC[al.nivel]||'dot-a'}"></div>
+      <div style="flex:1">
+        <h3>${al.titulo}</h3>
+        <p>${al.descripcion}</p>
+        <span class="badge ${badgeC[al.nivel]||'badge-a'}">${badgeT[al.nivel]||''}</span>
+      </div>
+    </div>`).join('')+'<p class="disclaimer">Esta app orienta e informa. Siempre consulta a tu médico antes de tomar decisiones de tratamiento.</p>';
+
+  // Consejos
+  document.getElementById('consejos-list').innerHTML=(a.consejos||[]).map(c=>`
+    <div class="tip-card">
+      <i class="ti ${c.icono||'ti-star'}"></i>
+      <div>
+        <h3>${c.titulo}</h3>
+        <p>${c.descripcion}</p>
+      </div>
+    </div>`).join('')+'<p class="disclaimer">Basado en tu historial clínico. Consulta a tu médico para decisiones de tratamiento.</p>';
+
+  // Historial
+  const tl = a.historial||[];
+  document.getElementById('historial-list').innerHTML=tl.map((h,i)=>`
+    <div class="tl-item">
+      <div class="tl-left"><div class="tl-date">${h.fecha}</div></div>
+      <div class="tl-dot-col">
+        <div class="tl-dot2"></div>
+        ${i<tl.length-1?'<div class="tl-line"></div>':''}
+      </div>
+      <div class="tl-content">
+        <h3>${h.titulo}</h3>
+        <p>${h.descripcion}</p>
+      </div>
+    </div>`).join('');
+
+  // Chat
+  const firstName = (a.nombre||'').split(' ')[0] || 'Hola';
+  document.getElementById('chat-area').innerHTML=`<div class="msg-bot">Hola ${firstName} 👋 Ya leí tu historia clínica completa. Tengo todo tu contexto y puedo responder preguntas personalizadas sobre tu salud. ¿Qué quieres saber hoy?</div>`;
+  CHAT_HISTORY = [
+    {role:'user',content:`Mi historial de salud resumido: Nombre: ${a.nombre}, Edad: ${a.edad}. Alertas detectadas: ${JSON.stringify(a.alertas)}. Consejos personalizados: ${JSON.stringify(a.consejos)}. Stats: ${JSON.stringify(a.stats)}. Historia completa disponible para referencia.`},
+    {role:'assistant',content:`Hola ${firstName}! Listo, tengo tu historial completo. ¿En qué te puedo ayudar hoy?`}
+  ];
+}
+
+function resetApp(){
+  if(!confirm('¿Seguro que quieres cargar una nueva historia clínica?')) return;
+  localStorage.removeItem('copiloto_analysis');
+  ANALYSIS=null; HC_TEXT=''; CHAT_HISTORY=[];
+  document.getElementById('result-home').style.display='none';
+  document.getElementById('upload-area').style.display='block';
+  document.getElementById('config-area').style.display='block';
+  document.getElementById('paste-area').value='';
+  clearFile();
+  ['alertas-list','consejos-list'].forEach(id=>{
+    document.getElementById(id).innerHTML='<div class="empty-state"><i class="ti ti-clock"></i>Primero analiza tu historia clínica en Inicio</div>';
+  });
+  document.getElementById('historial-list').innerHTML='<div class="empty-state"><i class="ti ti-timeline-event-exclamation"></i>Primero analiza tu historia clínica en Inicio</div>';
+  document.getElementById('chat-area').innerHTML='<div class="msg-bot">Hola 👋 Soy tu copiloto de salud. Cuando analices tu historia clínica, podré responder preguntas personalizadas.</div>';
+}
+
+function sendQ(q){ document.getElementById('chat-q').value=q; sendChat(); }
+
+async function sendChat(){
+  const q = document.getElementById('chat-q').value.trim();
+  if(!q) return;
+  if(!ANALYSIS){ alert('Primero analiza tu historia clínica en la pantalla Inicio.'); return; }
+  const area = document.getElementById('chat-area');
+  const uDiv = document.createElement('div');
+  uDiv.className='msg-user'; uDiv.textContent=q; area.appendChild(uDiv);
+  document.getElementById('chat-q').value='';
+  const lDiv = document.createElement('div');
+  lDiv.className='msg-loading'; lDiv.textContent='Pensando...'; area.appendChild(lDiv);
+  area.scrollTop=area.scrollHeight;
+  CHAT_HISTORY.push({role:'user',content:q});
+  try{
+    const res = await fetch('/api/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:600,
+        system:`Eres un copiloto de salud amable y claro para pacientes colombianos. Hablas en español colombiano cotidiano, cálido y empático. Nunca usas jerga médica sin explicarla. Tus respuestas son concisas (máximo 4-5 oraciones). Cuando la pregunta implica una decisión de tratamiento, añades brevemente: "Consulta con tu médico para confirmar." Tienes acceso al historial completo del paciente.`,
+        messages: CHAT_HISTORY.slice(-10)
+      })
+    });
+    const data = await res.json();
+    const reply = data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
+    CHAT_HISTORY.push({role:'assistant',content:reply});
+    lDiv.className='msg-bot'; lDiv.textContent=reply;
+  }catch(e){
+    lDiv.className='msg-bot'; lDiv.textContent='Tuve un problema al conectarme. Intenta de nuevo.';
+  }
+  area.scrollTop=area.scrollHeight;
+}
+
+loadStored();
+</script>
+</body>
+</html>
