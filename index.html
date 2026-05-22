@@ -281,16 +281,39 @@ function goTo(name, btn){
   btn.classList.add('active');
 }
 
-function handleFile(e){
+async function handleFile(e){
   const file = e.target.files[0];
   if(!file) return;
-  document.getElementById('file-name-txt').textContent = file.name;
-  document.getElementById('file-name-pill').style.display = 'flex';
-  const reader = new FileReader();
-  reader.onload = ev => {
-    document.getElementById('paste-area').value = ev.target.result;
-  };
-  reader.readAsText(file);
+  document.getElementById("file-name-txt").textContent = file.name;
+  document.getElementById("file-name-pill").style.display = "flex";
+  if(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")){
+    document.getElementById("paste-area").value = "Leyendo PDF, espera un momento...";
+    try{
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+      script.onload = async function(){
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+        const ab = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({data: ab}).promise;
+        let txt = "";
+        for(let i=1;i<=pdf.numPages;i++){
+          const pg = await pdf.getPage(i);
+          const ct = await pg.getTextContent();
+          txt += ct.items.map(x=>x.str).join(" ") + "\n";
+        }
+        document.getElementById("paste-area").value = txt;
+      };
+      if(!window.pdfjsLib) document.head.appendChild(script);
+      else script.onload();
+    }catch(err){
+      document.getElementById("paste-area").value = "";
+      alert("No se pudo leer el PDF.\n\nPor favor abre el PDF, selecciona todo (Ctrl+A), copia (Ctrl+C) y pega en el campo de texto.");
+    }
+  } else {
+    const reader = new FileReader();
+    reader.onload = ev => { document.getElementById("paste-area").value = ev.target.result; };
+    reader.readAsText(file);
+  }
 }
 
 function clearFile(){
