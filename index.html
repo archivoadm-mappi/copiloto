@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Copiloto — Tu salud, clara.</title>
+<title>HistorIA — Tu HistorIA, tu salud</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -22,54 +22,61 @@ body{font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background
 h1,h2,h3{font-family:'Fraunces',serif;font-weight:300;letter-spacing:-.02em}
 button{cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;border:none;transition:all .18s}
 input,textarea,select{font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid var(--border);border-radius:var(--rs);padding:10px 14px;width:100%;background:var(--surface);color:var(--ink);outline:none;transition:border .15s}
-input:focus,textarea:focus{border-color:var(--accent)}
-textarea{resize:vertical}
-
-.app{max-width:700px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-
-/* NAV */
-.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100}
+input:focus{border-color:var(--accent)}
+.app{max-width:720px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100}
 .nav-logo{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--accent);letter-spacing:-.03em}
-.nav-logo span{font-weight:300;font-style:italic}
-.nav-tabs{display:flex;gap:4px}
-.nav-tab{padding:6px 14px;border-radius:20px;background:transparent;color:var(--ink2);font-size:13px;border:none;transition:all .15s}
+.nav-logo span{font-style:italic;font-weight:300}
+.nav-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.nav-tab{padding:6px 12px;border-radius:20px;background:transparent;color:var(--ink2);font-size:13px;border:none}
 .nav-tab:hover{background:var(--surface2)}
 .nav-tab.active{background:var(--accent);color:#fff}
-
-/* SCREENS */
 .screen{display:none;padding:24px;flex:1}
 .screen.active{display:block}
 
-/* HOME */
-.hero{padding:20px 0 16px;text-align:center}
-.hero h1{font-size:32px;color:var(--ink);margin-bottom:10px}
-.hero p{color:var(--ink2);font-size:15px;max-width:420px;margin:0 auto;line-height:1.6}
-
-.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:32px;text-align:center;margin:16px 0;cursor:pointer;transition:all .2s;background:var(--surface)}
+/* UPLOAD */
+.hero{padding:24px 0 20px;text-align:center}
+.hero h1{font-size:30px;color:var(--ink);margin-bottom:10px;line-height:1.2}
+.hero p{color:var(--ink2);font-size:14px;max-width:440px;margin:0 auto;line-height:1.7}
+.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:40px 32px;text-align:center;margin:20px 0;cursor:pointer;transition:all .2s;background:var(--surface)}
 .upload-zone:hover{border-color:var(--accent);background:var(--accent-l)}
-.upload-zone i{font-size:32px;color:var(--ink3);margin-bottom:10px;display:block}
-.upload-zone p{font-size:14px;color:var(--ink2);margin:0 0 4px}
+.upload-zone i{font-size:36px;color:var(--ink3);margin-bottom:12px;display:block}
+.upload-zone h3{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;margin-bottom:6px;color:var(--ink)}
+.upload-zone p{font-size:13px;color:var(--ink2);margin:0 0 4px}
 .upload-zone span{font-size:12px;color:var(--ink3)}
-
-.btn-primary{background:var(--accent);color:#fff;padding:13px 24px;border-radius:var(--rs);font-weight:500;width:100%;font-size:15px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.file-pill{display:flex;align-items:center;gap:8px;background:var(--accent-l);border:1px solid #9FE1CB;border-radius:var(--rs);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--accent-d)}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 24px;border-radius:var(--rs);font-weight:500;width:100%;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-primary:hover{background:var(--accent-d)}
-.btn-primary:disabled{background:var(--ink3);cursor:not-allowed}
 .btn-sec{background:var(--surface);color:var(--ink);padding:10px 18px;border-radius:var(--rs);border:1px solid var(--border2);font-size:13px}
 .btn-sec:hover{background:var(--surface2)}
-.btn-danger{background:var(--danger-l);color:var(--danger);padding:8px 16px;border-radius:var(--rs);border:1px solid #F7C1C1;font-size:13px}
+.loading-area{text-align:center;padding:48px 24px}
+.loading-area i{font-size:36px;color:var(--accent)}
+.loading-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0 10px}
+.loading-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .5s ease}
+.loading-txt{font-size:14px;color:var(--ink2)}
 
-/* DIVIDER */
-.divider{display:flex;align-items:center;gap:12px;margin:12px 0;color:var(--ink3);font-size:13px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* DASHBOARD */
+.profile-card{background:linear-gradient(135deg,var(--accent-d) 0%,var(--accent) 100%);border-radius:var(--r);padding:20px 24px;color:#fff;margin-bottom:16px}
+.profile-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.avatar-lg{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;color:#fff;flex-shrink:0;border:2px solid rgba(255,255,255,.4)}
+.profile-name{font-family:'Fraunces',serif;font-size:20px;font-weight:300;margin-bottom:4px}
+.profile-desc{font-size:13px;opacity:.85;line-height:1.6;margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.2)}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.profile-item{background:rgba(255,255,255,.12);border-radius:var(--rs);padding:8px 10px}
+.profile-item-label{font-size:10px;opacity:.7;margin-bottom:2px;text-transform:uppercase;letter-spacing:.05em}
+.profile-item-val{font-size:13px;font-weight:500}
 
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
-.stat-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px 8px;text-align:center}
-.stat-v{font-size:17px;font-weight:500;margin:4px 0 2px}
-.stat-l{font-size:11px;color:var(--ink3)}
-.stat-g{color:#1D6B4F}.stat-a{color:#B85C00}.stat-r{color:#A32D2D}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.metric-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px 10px;text-align:center}
+.metric-val{font-size:18px;font-weight:500;margin:4px 0 2px}
+.metric-lbl{font-size:11px;color:var(--ink3)}
+.metric-sub{font-size:10px;margin-top:2px}
+.mg{color:#1D6B4F}.ma{color:#B85C00}.mr{color:#A32D2D}
 
-/* ALERT CARDS */
+.sec-label{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;margin-top:20px}
+.sec-label:first-child{margin-top:0}
+
+/* ALERTS */
 .alert-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;display:flex;gap:14px}
 .alert-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
 .dot-r{background:#E24B4A}.dot-a{background:#EF9F27}.dot-g{background:#1D9E75}
@@ -82,25 +89,28 @@ textarea{resize:vertical}
 
 /* TIPS */
 .tip-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:14px 16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
-.tip-card i{font-size:20px;color:var(--accent);flex-shrink:0;margin-top:2px}
+.tip-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.tip-icon-g{background:var(--accent-l);color:var(--accent)}
+.tip-icon-a{background:var(--warn-l);color:var(--warn)}
+.tip-icon-b{background:#E6F1FB;color:#185FA5}
 .tip-card h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:4px}
 .tip-card p{font-size:13px;color:var(--ink2);line-height:1.6}
+.tip-date{font-size:11px;color:var(--accent);font-weight:500;margin-top:6px}
 
 /* TIMELINE */
-.tl-wrap{padding:4px 0}
-.tl-item{display:flex;gap:16px;padding:14px 0}
-.tl-item:not(:last-child){border-bottom:1px solid var(--border)}
-.tl-left{min-width:68px;text-align:right;padding-top:2px}
-.tl-date{font-size:11px;color:var(--ink3);line-height:1.5}
-.tl-dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:4px}
-.tl-dot2{width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--accent-l);flex-shrink:0}
-.tl-line{width:1px;flex:1;background:var(--border);margin-top:4px;min-height:20px}
-.tl-content{flex:1;padding-top:0}
-.tl-content h3{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:4px}
-.tl-content p{font-size:13px;color:var(--ink2);line-height:1.6}
+.tl-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px}
+.tl-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.tl-fecha{font-size:12px;color:var(--ink3);font-weight:500}
+.tl-tipo{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--accent-l);color:var(--accent);font-weight:500}
+.tl-titulo{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:6px}
+.tl-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:8px}
+.tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tl-tag{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--surface2);color:var(--ink2)}
+.tl-rec{background:var(--surface2);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--ink2);line-height:1.6}
+.tl-rec strong{color:var(--ink);display:block;margin-bottom:4px;font-size:12px}
 
 /* CHAT */
-.chat-area{background:var(--surface2);border-radius:var(--r);padding:16px;min-height:260px;max-height:420px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px}
+.chat-area{background:var(--surface2);border-radius:var(--r);padding:16px;min-height:260px;max-height:400px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px}
 .msg-bot{align-self:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:12px 16px;font-size:14px;line-height:1.6;max-width:88%;color:var(--ink)}
 .msg-user{align-self:flex-end;background:var(--accent);border-radius:12px 12px 4px 12px;padding:12px 16px;font-size:14px;line-height:1.6;max-width:88%;color:#fff}
 .msg-loading{align-self:flex-start;padding:12px 16px;font-size:14px;color:var(--ink3);font-style:italic}
@@ -112,39 +122,16 @@ textarea{resize:vertical}
 .chip{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--ink2);cursor:pointer;transition:all .15s}
 .chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l)}
 
-/* SECTION LABEL */
-.sec-label{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
-
-/* PROFILE */
-.profile-badge{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:18px}
-.avatar{width:46px;height:46px;border-radius:50%;background:var(--accent-l);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--accent);flex-shrink:0}
-.profile-info h2{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;margin-bottom:3px}
-.profile-info p{font-size:12px;color:var(--ink2);line-height:1.5}
-
-/* LOADING */
-.loading-area{text-align:center;padding:40px 24px}
-.loading-area i{font-size:36px;color:var(--accent)}
-.loading-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin:16px 0 10px}
-.loading-fill{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width .5s ease}
-.loading-txt{font-size:14px;color:var(--ink2)}
-
 .disclaimer{font-size:11px;color:var(--ink3);font-style:italic;margin-top:16px;line-height:1.6;text-align:center}
-
-/* API KEY AREA */
-.api-note{background:var(--warn-l);border:1px solid #FAC775;border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--warn);margin-bottom:16px;line-height:1.6}
-.api-note a{color:var(--warn);font-weight:500}
-
-.empty-state{text-align:center;padding:40px 20px;color:var(--ink3);font-size:14px}
-.empty-state i{font-size:36px;display:block;margin-bottom:12px;color:var(--border2)}
-
+.nueva-btn{background:var(--surface);border:1px solid var(--border2);color:var(--ink2);padding:12px;border-radius:var(--rs);width:100%;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px}
+.nueva-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-l)}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
 <div class="app">
   <div class="nav">
-    <div class="nav-logo">copi<span>loto</span></div>
+    <div class="nav-logo">Histor<span>IA</span></div>
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="goTo('home',this)"><i class="ti ti-home"></i> Inicio</button>
       <button class="nav-tab" onclick="goTo('alertas',this)"><i class="ti ti-bell"></i> Alertas</button>
@@ -156,32 +143,25 @@ textarea{resize:vertical}
 
   <!-- HOME -->
   <div id="s-home" class="screen active">
-    <div class="hero">
-      <h1>Tu salud, clara.</h1>
-      <p>Sube tu historia clínica y tu copiloto la analiza, detecta alertas y te acompaña día a día.</p>
-    </div>
-
-    <div id="config-area" style="display:none"></div>
-
     <div id="upload-area">
-      <div class="upload-zone" onclick="document.getElementById('file-in').click()" id="drop-zone">
+      <div class="hero">
+        <h1>Tu HistorIA,<br>tu salud.</h1>
+        <p>Sube tu historia clínica, HistorIA la analiza, detecta alertas y te acompaña día a día.</p>
+      </div>
+      <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-in').click()">
         <i class="ti ti-file-medical"></i>
-        <p>Arrastra tu historia clínica aquí</p>
-        <span>PDF, TXT, o imagen · o haz clic para seleccionar</span>
+        <h3>Sube tu historia clínica</h3>
+        <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+        <span>PDF · Clic para seleccionar</span>
       </div>
-      <input type="file" id="file-in" accept=".pdf,.txt,.jpg,.jpeg,.png" style="display:none" onchange="handleFile(event)">
-      <div id="file-name-pill" style="display:none;align-items:center;gap:8px;background:var(--accent-l);border:1px solid #9FE1CB;border-radius:var(--rs);padding:8px 14px;margin-bottom:10px;font-size:13px;color:var(--accent-d)">
+      <input type="file" id="file-in" accept=".pdf,.txt" style="display:none" onchange="handleFile(event)">
+      <div id="file-pill" style="display:none" class="file-pill">
         <i class="ti ti-file-check" style="font-size:16px"></i>
-        <span id="file-name-txt">archivo.txt</span>
-        <button onclick="clearFile()" style="margin-left:auto;background:none;color:var(--ink3);font-size:18px;line-height:1">×</button>
+        <span id="file-name-txt">archivo.pdf</span>
+        <button onclick="clearFile()" style="margin-left:auto;background:none;color:var(--ink3);font-size:20px;line-height:1;padding:0">×</button>
       </div>
-
-      <div class="divider">o pega el texto directamente</div>
-
-      <textarea id="paste-area" placeholder="Pega aquí el texto de tu historia clínica..." style="min-height:140px"></textarea>
-
       <button class="btn-primary" onclick="analyzeHC()" id="analyze-btn">
-        <i class="ti ti-sparkles"></i> Analizar con IA
+        <i class="ti ti-sparkles"></i> Analizar con HistorIA
       </button>
     </div>
 
@@ -192,65 +172,67 @@ textarea{resize:vertical}
     </div>
 
     <div id="result-home" style="display:none">
-      <div class="profile-badge">
-        <div class="avatar" id="av-initials">--</div>
-        <div class="profile-info">
-          <h2 id="profile-name">Cargando...</h2>
-          <p id="profile-sub"></p>
+      <!-- Profile card -->
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="avatar-lg" id="av-initials">--</div>
+          <div style="flex:1">
+            <div class="profile-name" id="profile-name">Cargando...</div>
+            <div style="font-size:12px;opacity:.8" id="profile-meta"></div>
+          </div>
         </div>
-        <button class="btn-danger" style="margin-left:auto;flex-shrink:0" onclick="resetApp()">
-          <i class="ti ti-refresh"></i> Nueva historia
-        </button>
+        <div class="profile-grid" id="profile-grid"></div>
+        <div class="profile-desc" id="profile-desc"></div>
       </div>
-      <div class="stats-row" id="stats-row"></div>
-      <p style="font-size:13px;color:var(--ink2);text-align:center;margin-bottom:8px">Explora las alertas, consejos y habla con tu copiloto.</p>
-      <div class="disclaimer">Esta app orienta e informa. Siempre consulta a tu médico antes de tomar decisiones de tratamiento.</div>
+
+      <!-- Antropometría y últimos signos -->
+      <div class="sec-label">Medidas y signos vitales recientes</div>
+      <div class="metrics-grid" id="metrics-grid"></div>
+
+      <!-- Botón nueva historia -->
+      <button class="nueva-btn" onclick="resetApp()">
+        <i class="ti ti-refresh"></i> Consultar nueva historia médica
+      </button>
+      <p class="disclaimer">HistorIA orienta e informa. Siempre consulta a tu médico antes de tomar decisiones de tratamiento.</p>
     </div>
   </div>
 
   <!-- ALERTAS -->
   <div id="s-alertas" class="screen">
     <div class="sec-label">Lo que debes saber sobre tu salud</div>
-    <div id="alertas-list">
-      <div class="empty-state"><i class="ti ti-bell-off"></i>Primero analiza tu historia clínica en Inicio</div>
-    </div>
+    <div id="alertas-list"><p style="color:var(--ink3);font-size:13px;text-align:center;padding:40px 0">Primero analiza tu historia clínica en Inicio</p></div>
   </div>
 
   <!-- CONSEJOS -->
   <div id="s-consejos" class="screen">
     <div class="sec-label">Recomendaciones personalizadas</div>
-    <div id="consejos-list">
-      <div class="empty-state"><i class="ti ti-heart-off"></i>Primero analiza tu historia clínica en Inicio</div>
-    </div>
+    <div id="consejos-list"><p style="color:var(--ink3);font-size:13px;text-align:center;padding:40px 0">Primero analiza tu historia clínica en Inicio</p></div>
   </div>
 
   <!-- CHAT -->
   <div id="s-chat" class="screen">
-    <div class="sec-label">Habla con tu copiloto de salud</div>
-    <div class="quick-chips" id="quick-chips">
-      <span class="chip" onclick="sendQ('¿Cuáles son mis pendientes de salud más urgentes?')">Mis pendientes urgentes</span>
-      <span class="chip" onclick="sendQ('¿Qué preguntas debo hacerle a mi médico en la próxima cita?')">Prepararme para consulta</span>
+    <div class="sec-label">Habla con HistorIA</div>
+    <div class="quick-chips">
+      <span class="chip" onclick="sendQ('¿Cuáles son mis pendientes de salud más urgentes?')">Mis pendientes</span>
+      <span class="chip" onclick="sendQ('¿Qué preguntas debo hacerle a mi médico?')">Prepararme para consulta</span>
       <span class="chip" onclick="sendQ('¿Qué alimentos debo evitar según mi historial?')">Qué comer</span>
       <span class="chip" onclick="sendQ('¿Cuáles son mis alergias registradas?')">Mis alergias</span>
     </div>
     <div class="chat-area" id="chat-area">
-      <div class="msg-bot">Hola 👋 Soy tu copiloto de salud. Cuando analices tu historia clínica en <strong>Inicio</strong>, podré responder preguntas personalizadas sobre tu salud.</div>
+      <div class="msg-bot">Hola 👋 Soy HistorIA. Cuando analices tu historia clínica, podré responder preguntas personalizadas sobre tu salud.</div>
     </div>
     <div class="chat-input-row">
       <input type="text" id="chat-q" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()">
       <button class="send-btn" onclick="sendChat()"><i class="ti ti-send"></i> Enviar</button>
     </div>
-    <p class="disclaimer" style="margin-top:12px">El copiloto informa y orienta. No reemplaza la consulta médica profesional.</p>
+    <p class="disclaimer" style="margin-top:12px">HistorIA informa y orienta. No reemplaza la consulta médica profesional.</p>
   </div>
 
   <!-- HISTORIAL -->
   <div id="s-historial" class="screen">
-    <div class="sec-label">Tu línea de tiempo médica</div>
-    <div id="historial-list" class="tl-wrap">
-      <div class="empty-state"><i class="ti ti-timeline-event-exclamation"></i>Primero analiza tu historia clínica en Inicio</div>
-    </div>
+    <div class="sec-label">Todas tus consultas médicas</div>
+    <div id="historial-list"><p style="color:var(--ink3);font-size:13px;text-align:center;padding:40px 0">Primero analiza tu historia clínica en Inicio</p></div>
   </div>
-
 </div>
 
 <script>
@@ -258,23 +240,14 @@ let HC_TEXT = '';
 let ANALYSIS = null;
 let CHAT_HISTORY = [];
 
-// Cargar análisis guardado
 function loadStored(){
   try{
-    const raw = localStorage.getItem('copiloto_analysis');
-    if(raw){
-      ANALYSIS = JSON.parse(raw);
-      HC_TEXT = ANALYSIS.hc_text || '';
-      renderAll();
-    }
-    const key = localStorage.getItem('copiloto_apikey');
-    if(key) document.getElementById('api-key-input').value = key;
+    const raw = localStorage.getItem('historia_analysis');
+    if(raw){ ANALYSIS = JSON.parse(raw); HC_TEXT = ANALYSIS.hc_text||''; renderAll(); }
   }catch(e){}
 }
 
-function getApiKey(){ return 'proxy'; }
-
-function goTo(name, btn){
+function goTo(name,btn){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
   document.getElementById('s-'+name).classList.add('active');
@@ -284,264 +257,265 @@ function goTo(name, btn){
 async function handleFile(e){
   const file = e.target.files[0];
   if(!file) return;
-  document.getElementById("file-name-txt").textContent = file.name;
-  document.getElementById("file-name-pill").style.display = "flex";
-  if(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")){
-    document.getElementById("paste-area").value = "Leyendo PDF, espera un momento...";
-    try{
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
-      script.onload = async function(){
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  document.getElementById('file-name-txt').textContent = file.name;
+  document.getElementById('file-pill').style.display = 'flex';
+  if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+    script.onload = async function(){
+      try{
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
         const ab = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({data: ab}).promise;
-        let txt = "";
+        const pdf = await pdfjsLib.getDocument({data:ab}).promise;
+        let txt = '';
         for(let i=1;i<=pdf.numPages;i++){
           const pg = await pdf.getPage(i);
           const ct = await pg.getTextContent();
-          txt += ct.items.map(x=>x.str).join(" ") + "\n";
+          txt += ct.items.map(x=>x.str).join(' ')+'\n';
         }
-        document.getElementById("paste-area").value = txt;
-      };
-      if(!window.pdfjsLib) document.head.appendChild(script);
-      else script.onload();
-    }catch(err){
-      document.getElementById("paste-area").value = "";
-      alert("No se pudo leer el PDF.\n\nPor favor abre el PDF, selecciona todo (Ctrl+A), copia (Ctrl+C) y pega en el campo de texto.");
-    }
+        HC_TEXT = txt;
+      }catch(err){ alert('No se pudo leer el PDF. Intenta con un PDF de texto, no escaneado.'); }
+    };
+    if(!window.pdfjsLib) document.head.appendChild(script); else script.onload();
   } else {
     const reader = new FileReader();
-    reader.onload = ev => { document.getElementById("paste-area").value = ev.target.result; };
+    reader.onload = ev => { HC_TEXT = ev.target.result; };
     reader.readAsText(file);
   }
 }
 
 function clearFile(){
-  document.getElementById('file-in').value = '';
-  document.getElementById('file-name-pill').style.display = 'none';
-  document.getElementById('paste-area').value = '';
+  document.getElementById('file-in').value='';
+  document.getElementById('file-pill').style.display='none';
+  HC_TEXT='';
 }
 
-// Drag & drop
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.style.borderColor='var(--accent)'; dz.style.background='var(--accent-l)'; });
-dz.addEventListener('dragleave', ()=>{ dz.style.borderColor=''; dz.style.background=''; });
-dz.addEventListener('drop', e=>{ e.preventDefault(); dz.style.borderColor=''; dz.style.background=''; const f=e.dataTransfer.files[0]; if(f){ document.getElementById('file-in').files = e.dataTransfer.files; handleFile({target:{files:e.dataTransfer.files}}); } });
-
-const loadMsgs = [
-  'Leyendo tu historia clínica...', 'Identificando diagnósticos...',
-  'Detectando alertas importantes...', 'Generando consejos personalizados...',
-  'Construyendo tu línea de tiempo...', 'Casi listo...'
-];
-let loadIdx = 0;
-let loadInt, fillInt;
+const loadMsgs=['Leyendo tu historia clínica...','Identificando diagnósticos...','Analizando signos vitales...','Detectando alertas importantes...','Generando consejos personalizados...','Construyendo tu historial...','Casi listo...'];
+let loadIdx=0, loadInt, fillInt;
 
 async function analyzeHC(){
-  const txt = document.getElementById('paste-area').value.trim();
-  if(!txt){ alert('Pega el texto de tu historia clínica o sube un archivo.'); return; }
-  HC_TEXT = txt;
-
+  if(!HC_TEXT){ alert('Primero sube tu historia clínica en PDF.'); return; }
   document.getElementById('upload-area').style.display='none';
   document.getElementById('loading-area').style.display='block';
+  loadIdx=0; let fillPct=0;
+  document.getElementById('loading-msg').textContent=loadMsgs[0];
+  document.getElementById('loading-fill').style.width='0%';
+  loadInt=setInterval(()=>{ loadIdx=Math.min(loadIdx+1,loadMsgs.length-1); document.getElementById('loading-msg').textContent=loadMsgs[loadIdx]; },2000);
+  fillInt=setInterval(()=>{ fillPct=Math.min(fillPct+1.5,90); document.getElementById('loading-fill').style.width=fillPct+'%'; },200);
 
-  loadIdx = 0;
-  let fillPct = 0;
-  document.getElementById('loading-msg').textContent = loadMsgs[0];
-  document.getElementById('loading-fill').style.width = '0%';
-
-  loadInt = setInterval(()=>{
-    loadIdx = Math.min(loadIdx+1, loadMsgs.length-1);
-    document.getElementById('loading-msg').textContent = loadMsgs[loadIdx];
-  }, 2000);
-
-  fillInt = setInterval(()=>{
-    fillPct = Math.min(fillPct + 2, 90);
-    document.getElementById('loading-fill').style.width = fillPct+'%';
-  }, 200);
-
-  const prompt = `Eres el motor de análisis de un copiloto de salud para pacientes. Analiza la siguiente historia clínica y devuelve ÚNICAMENTE un objeto JSON válido, sin backticks, sin texto adicional, sin explicaciones.
+  const prompt = `Eres el motor de análisis de HistorIA, una app de salud para pacientes colombianos. Analiza la siguiente historia clínica y devuelve ÚNICAMENTE un objeto JSON válido, sin backticks, sin texto adicional.
 
 Historia clínica:
-${txt.substring(0,9000)}
+${HC_TEXT.substring(0,10000)}
 
-Devuelve exactamente este JSON (respeta la estructura):
+Devuelve exactamente este JSON:
 {
-  "nombre": "nombre completo del paciente",
-  "edad": "edad en texto ej: 41 años",
-  "resumen": "2 oraciones sobre el estado general de salud en lenguaje simple",
-  "stats": [
-    {"label":"Presión","valor":"110/70","estado":"ok"},
-    {"label":"Colesterol","valor":"218","estado":"warn"},
-    {"label":"Glucosa","valor":"78","estado":"ok"},
-    {"label":"IMC","valor":"23","estado":"ok"}
-  ],
+  "nombre": "nombre completo",
+  "cedula": "número de cédula",
+  "edad": "41 años",
+  "sexo": "Femenino",
+  "eps": "nombre de la EPS",
+  "barrio": "barrio o dirección",
+  "estado_civil": "Casado/a",
+  "profesion": "ocupación",
+  "descripcion_general": "Frase completa tipo: 41 años · Eres una mujer en buen estado de salud física con signos vitales normales, pero tienes pendientes importantes como... (2-3 oraciones cálidas y específicas)",
+  "antropometria": {
+    "peso": "58 kg",
+    "talla": "159 cm",
+    "imc": "23.0",
+    "imc_estado": "Peso normal",
+    "perimetro_abdominal": "87 cm"
+  },
+  "ultima_cita": {
+    "fecha": "28 ene 2026",
+    "presion": "110/70",
+    "presion_estado": "ok",
+    "colesterol": "218",
+    "colesterol_estado": "warn",
+    "glucosa": "78",
+    "glucosa_estado": "ok",
+    "hemoglobina": "12.6",
+    "hemoglobina_estado": "warn"
+  },
   "alertas": [
-    {"nivel":"urgente","titulo":"Título corto claro","descripcion":"Explicación en lenguaje cotidiano, cálido, sin términos médicos complejos. 2-3 oraciones. Específico para ESTA persona."},
+    {"nivel":"urgente","titulo":"Título corto","descripcion":"Explicación en lenguaje cotidiano, 2-3 oraciones. Específico para esta persona."},
     {"nivel":"atencion","titulo":"...","descripcion":"..."},
     {"nivel":"ok","titulo":"...","descripcion":"..."}
   ],
   "consejos": [
-    {"icono":"ti-salad","titulo":"Título del consejo","descripcion":"Consejo personalizado y específico para esta persona según su historial. 2 oraciones en lenguaje simple."},
-    {"icono":"ti-run","titulo":"...","descripcion":"..."},
-    {"icono":"ti-moon","titulo":"...","descripcion":"..."},
-    {"icono":"ti-calendar","titulo":"...","descripcion":"..."},
-    {"icono":"ti-pill","titulo":"...","descripcion":"..."}
+    {"tipo":"alerta","icono":"ti-bell","titulo":"Para cerrar esta alerta","descripcion":"Qué debe hacer concretamente para resolver una alerta pendiente.","fecha_control":"Pide cita antes del 28 feb 2026"},
+    {"tipo":"comida","icono":"ti-salad","titulo":"Alimentación para tu caso","descripcion":"Consejo específico de alimentación basado en su historial real.","fecha_control":""},
+    {"tipo":"ejercicio","icono":"ti-run","titulo":"Ejercicio recomendado","descripcion":"Rutina específica según su condición.","fecha_control":""},
+    {"tipo":"control","icono":"ti-calendar","titulo":"Próximo control médico","descripcion":"Cuándo y para qué debe pedir cita.","fecha_control":"Agenda cita en los próximos 30 días"},
+    {"tipo":"mental","icono":"ti-brain","titulo":"Salud mental","descripcion":"Consejo específico relacionado con su condición de ansiedad u otras.","fecha_control":""}
   ],
   "historial": [
-    {"fecha":"Mar 2026","titulo":"Tipo de consulta","descripcion":"Resumen breve de esa consulta"},
-    {"fecha":"Ene 2026","titulo":"...","descripcion":"..."}
+    {
+      "fecha": "28 ene 2026",
+      "tipo": "Consulta general",
+      "titulo": "Diagnóstico y medicamentos",
+      "descripcion": "Resumen de qué pasó en esa consulta en lenguaje simple.",
+      "diagnosticos": ["Hipercolesterolemia", "Trastorno mixto ansiedad"],
+      "medicamentos": ["Sertralina 25mg", "Trazodona"],
+      "recomendaciones": "Resumen de las recomendaciones que le dieron en esa consulta."
+    }
   ]
 }
 
-IMPORTANTE: usa lenguaje colombiano cotidiano, cálido y empático. Las alertas deben ser accionables y específicas para esta persona. Los consejos deben basarse en el historial real, no genéricos.`;
+IMPORTANTE: usa lenguaje colombiano cotidiano, cálido. Extrae TODOS los datos reales del documento. El historial debe incluir TODAS las consultas encontradas ordenadas de más reciente a más antigua.`;
 
   try{
     const res = await fetch('/api/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2500,messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,messages:[{role:'user',content:prompt}]})
     });
-    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'Error API'); }
+    if(!res.ok) throw new Error('Error '+res.status);
     const data = await res.json();
     const raw = data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
     const clean = raw.replace(/```json|```/g,'').trim();
     ANALYSIS = JSON.parse(clean);
-    ANALYSIS.hc_text = txt;
-    localStorage.setItem('copiloto_analysis', JSON.stringify(ANALYSIS));
+    ANALYSIS.hc_text = HC_TEXT;
+    localStorage.setItem('historia_analysis',JSON.stringify(ANALYSIS));
     clearInterval(loadInt); clearInterval(fillInt);
-    document.getElementById('loading-fill').style.width = '100%';
-    setTimeout(()=>{
-      document.getElementById('loading-area').style.display='none';
-      renderAll();
-    }, 400);
+    document.getElementById('loading-fill').style.width='100%';
+    setTimeout(()=>{ document.getElementById('loading-area').style.display='none'; renderAll(); },400);
   }catch(err){
     clearInterval(loadInt); clearInterval(fillInt);
     document.getElementById('loading-area').style.display='none';
     document.getElementById('upload-area').style.display='block';
-    alert('Error: ' + err.message + '\n\nVerifica que tu API key sea correcta.');
+    alert('Error al analizar: '+err.message);
   }
 }
 
 function renderAll(){
   if(!ANALYSIS) return;
   const a = ANALYSIS;
-
-  // Profile
-  const words = (a.nombre||'Paciente').split(' ');
-  const initials = words.slice(0,2).map(w=>w[0]).join('').toUpperCase();
-  document.getElementById('av-initials').textContent = initials;
-  document.getElementById('profile-name').textContent = a.nombre || 'Paciente';
-  document.getElementById('profile-sub').textContent = (a.edad||'') + ' · ' + (a.resumen||'').substring(0,80)+'...';
-  document.getElementById('result-home').style.display='block';
   document.getElementById('upload-area').style.display='none';
-  document.getElementById('config-area').style.display='none';
 
-  // Stats
-  const stateClass={ok:'stat-g',warn:'stat-a',danger:'stat-r'};
-  document.getElementById('stats-row').innerHTML=(a.stats||[]).map(s=>`
-    <div class="stat-c">
-      <div class="stat-l">${s.label}</div>
-      <div class="stat-v ${stateClass[s.estado]||'stat-a'}">${s.valor}</div>
-    </div>`).join('');
+  // Avatar
+  const initials=(a.nombre||'??').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  document.getElementById('av-initials').textContent=initials;
+  document.getElementById('profile-name').textContent=a.nombre||'Paciente';
+  document.getElementById('profile-meta').textContent=(a.edad||'')+' · '+(a.eps||'');
+
+  // Profile grid
+  const fields=[
+    {l:'Cédula',v:a.cedula||'—'},{l:'Sexo',v:a.sexo||'—'},{l:'Estado civil',v:a.estado_civil||'—'},
+    {l:'Profesión',v:a.profesion||'—'},{l:'Barrio',v:a.barrio||'—'},{l:'EPS',v:a.eps||'—'}
+  ];
+  document.getElementById('profile-grid').innerHTML=fields.map(f=>`<div class="profile-item"><div class="profile-item-label">${f.l}</div><div class="profile-item-val">${f.v}</div></div>`).join('');
+  document.getElementById('profile-desc').textContent=a.descripcion_general||'';
+  document.getElementById('result-home').style.display='block';
+
+  // Métricas
+  const ant=a.antropometria||{};
+  const ult=a.ultima_cita||{};
+  const sc={ok:'mg',warn:'ma',danger:'mr'};
+  const metrics=[
+    {l:'Peso',v:ant.peso||'—',sub:ant.imc_estado||'',c:'mg'},
+    {l:'Talla',v:ant.talla||'—',sub:'',c:'mg'},
+    {l:'IMC',v:ant.imc||'—',sub:ant.imc_estado||'',c:'mg'},
+    {l:'P. Abdominal',v:ant.perimetro_abdominal||'—',sub:'',c:'mg'},
+    {l:'Presión',v:ult.presion||'—',sub:ult.fecha||'',c:sc[ult.presion_estado]||'mg'},
+    {l:'Colesterol',v:ult.colesterol||'—',sub:'mg/dL',c:sc[ult.colesterol_estado]||'ma'},
+    {l:'Glucosa',v:ult.glucosa||'—',sub:'mg/dL',c:sc[ult.glucosa_estado]||'mg'},
+    {l:'Hemoglobina',v:ult.hemoglobina||'—',sub:'g/dL',c:sc[ult.hemoglobina_estado]||'ma'}
+  ];
+  document.getElementById('metrics-grid').innerHTML=metrics.map(m=>`<div class="metric-box"><div class="metric-lbl">${m.l}</div><div class="metric-val ${m.c}">${m.v}</div><div class="metric-sub" style="color:var(--ink3)">${m.sub}</div></div>`).join('');
 
   // Alertas
-  const dotC={urgente:'dot-r',atencion:'dot-a',ok:'dot-g'};
-  const badgeC={urgente:'badge-r',atencion:'badge-a',ok:'badge-g'};
-  const badgeT={urgente:'Requiere acción',atencion:'Seguimiento necesario',ok:'Al día'};
+  const dc={urgente:'dot-r',atencion:'dot-a',ok:'dot-g'};
+  const bc={urgente:'badge-r',atencion:'badge-a',ok:'badge-g'};
+  const bt={urgente:'Requiere acción',atencion:'Seguimiento necesario',ok:'Al día'};
   document.getElementById('alertas-list').innerHTML=(a.alertas||[]).map(al=>`
     <div class="alert-card">
-      <div class="alert-dot ${dotC[al.nivel]||'dot-a'}"></div>
-      <div style="flex:1">
-        <h3>${al.titulo}</h3>
-        <p>${al.descripcion}</p>
-        <span class="badge ${badgeC[al.nivel]||'badge-a'}">${badgeT[al.nivel]||''}</span>
-      </div>
-    </div>`).join('')+'<p class="disclaimer">Esta app orienta e informa. Siempre consulta a tu médico antes de tomar decisiones de tratamiento.</p>';
+      <div class="alert-dot ${dc[al.nivel]||'dot-a'}"></div>
+      <div style="flex:1"><h3>${al.titulo}</h3><p>${al.descripcion}</p>
+      <span class="badge ${bc[al.nivel]||'badge-a'}">${bt[al.nivel]||''}</span></div>
+    </div>`).join('')+'<p class="disclaimer">HistorIA orienta e informa. Consulta siempre a tu médico.</p>';
 
   // Consejos
+  const tipColors={alerta:'tip-icon-a',comida:'tip-icon-g',ejercicio:'tip-icon-b',control:'tip-icon-g',mental:'tip-icon-b'};
   document.getElementById('consejos-list').innerHTML=(a.consejos||[]).map(c=>`
     <div class="tip-card">
-      <i class="ti ${c.icono||'ti-star'}"></i>
-      <div>
-        <h3>${c.titulo}</h3>
-        <p>${c.descripcion}</p>
+      <div class="tip-icon ${tipColors[c.tipo]||'tip-icon-g'}"><i class="ti ${c.icono||'ti-star'}"></i></div>
+      <div style="flex:1"><h3>${c.titulo}</h3><p>${c.descripcion}</p>
+      ${c.fecha_control?`<div class="tip-date"><i class="ti ti-calendar-event" style="font-size:11px"></i> ${c.fecha_control}</div>`:''}
       </div>
-    </div>`).join('')+'<p class="disclaimer">Basado en tu historial clínico. Consulta a tu médico para decisiones de tratamiento.</p>';
+    </div>`).join('')+'<p class="disclaimer">Basado en tu historial. Consulta a tu médico para decisiones de tratamiento.</p>';
 
-  // Historial
-  const tl = a.historial||[];
-  document.getElementById('historial-list').innerHTML=tl.map((h,i)=>`
+  // Historial completo
+  document.getElementById('historial-list').innerHTML=(a.historial||[]).map(h=>`
     <div class="tl-item">
-      <div class="tl-left"><div class="tl-date">${h.fecha}</div></div>
-      <div class="tl-dot-col">
-        <div class="tl-dot2"></div>
-        ${i<tl.length-1?'<div class="tl-line"></div>':''}
+      <div class="tl-header">
+        <div><div class="tl-fecha"><i class="ti ti-calendar" style="font-size:11px"></i> ${h.fecha}</div></div>
+        <div class="tl-tipo">${h.tipo||'Consulta'}</div>
       </div>
-      <div class="tl-content">
-        <h3>${h.titulo}</h3>
-        <p>${h.descripcion}</p>
-      </div>
+      <div class="tl-titulo">${h.titulo}</div>
+      <div class="tl-desc">${h.descripcion}</div>
+      ${h.diagnosticos&&h.diagnosticos.length?`<div class="tl-tags">${h.diagnosticos.map(d=>`<span class="tl-tag"><i class="ti ti-stethoscope" style="font-size:10px"></i> ${d}</span>`).join('')}</div>`:''}
+      ${h.medicamentos&&h.medicamentos.length?`<div class="tl-tags">${h.medicamentos.map(m=>`<span class="tl-tag" style="background:#E6F1FB;color:#185FA5"><i class="ti ti-pill" style="font-size:10px"></i> ${m}</span>`).join('')}</div>`:''}
+      ${h.recomendaciones?`<div class="tl-rec"><strong><i class="ti ti-notes" style="font-size:11px"></i> Recomendaciones</strong>${h.recomendaciones}</div>`:''}
     </div>`).join('');
 
   // Chat
-  const firstName = (a.nombre||'').split(' ')[0] || 'Hola';
+  const firstName=(a.nombre||'').split(' ')[0]||'';
   document.getElementById('chat-area').innerHTML=`<div class="msg-bot">Hola ${firstName} 👋 Ya leí tu historia clínica completa. Tengo todo tu contexto y puedo responder preguntas personalizadas sobre tu salud. ¿Qué quieres saber hoy?</div>`;
-  CHAT_HISTORY = [
-    {role:'user',content:`Mi historial de salud resumido: Nombre: ${a.nombre}, Edad: ${a.edad}. Alertas detectadas: ${JSON.stringify(a.alertas)}. Consejos personalizados: ${JSON.stringify(a.consejos)}. Stats: ${JSON.stringify(a.stats)}. Historia completa disponible para referencia.`},
-    {role:'assistant',content:`Hola ${firstName}! Listo, tengo tu historial completo. ¿En qué te puedo ayudar hoy?`}
+  CHAT_HISTORY=[
+    {role:'user',content:`Mi historial de salud: Nombre: ${a.nombre}, Edad: ${a.edad}, EPS: ${a.eps}. Alertas: ${JSON.stringify(a.alertas)}. Consejos: ${JSON.stringify(a.consejos)}. Antropometría: ${JSON.stringify(a.antropometria)}. Última cita: ${JSON.stringify(a.ultima_cita)}.`},
+    {role:'assistant',content:`Hola ${firstName}! Listo, tengo tu historial. ¿En qué te puedo ayudar?`}
   ];
 }
 
 function resetApp(){
   if(!confirm('¿Seguro que quieres cargar una nueva historia clínica?')) return;
-  localStorage.removeItem('copiloto_analysis');
+  localStorage.removeItem('historia_analysis');
   ANALYSIS=null; HC_TEXT=''; CHAT_HISTORY=[];
   document.getElementById('result-home').style.display='none';
   document.getElementById('upload-area').style.display='block';
-  document.getElementById('config-area').style.display='block';
-  document.getElementById('paste-area').value='';
   clearFile();
-  ['alertas-list','consejos-list'].forEach(id=>{
-    document.getElementById(id).innerHTML='<div class="empty-state"><i class="ti ti-clock"></i>Primero analiza tu historia clínica en Inicio</div>';
+  ['alertas-list','consejos-list','historial-list'].forEach(id=>{
+    document.getElementById(id).innerHTML='<p style="color:var(--ink3);font-size:13px;text-align:center;padding:40px 0">Primero analiza tu historia clínica en Inicio</p>';
   });
-  document.getElementById('historial-list').innerHTML='<div class="empty-state"><i class="ti ti-timeline-event-exclamation"></i>Primero analiza tu historia clínica en Inicio</div>';
-  document.getElementById('chat-area').innerHTML='<div class="msg-bot">Hola 👋 Soy tu copiloto de salud. Cuando analices tu historia clínica, podré responder preguntas personalizadas.</div>';
+  document.getElementById('chat-area').innerHTML='<div class="msg-bot">Hola 👋 Soy HistorIA. Cuando analices tu historia clínica, podré responder preguntas personalizadas sobre tu salud.</div>';
 }
 
 function sendQ(q){ document.getElementById('chat-q').value=q; sendChat(); }
 
 async function sendChat(){
-  const q = document.getElementById('chat-q').value.trim();
+  const q=document.getElementById('chat-q').value.trim();
   if(!q) return;
-  if(!ANALYSIS){ alert('Primero analiza tu historia clínica en la pantalla Inicio.'); return; }
-  const area = document.getElementById('chat-area');
-  const uDiv = document.createElement('div');
-  uDiv.className='msg-user'; uDiv.textContent=q; area.appendChild(uDiv);
+  if(!ANALYSIS){ alert('Primero analiza tu historia clínica en Inicio.'); return; }
+  const area=document.getElementById('chat-area');
+  const uDiv=document.createElement('div'); uDiv.className='msg-user'; uDiv.textContent=q; area.appendChild(uDiv);
   document.getElementById('chat-q').value='';
-  const lDiv = document.createElement('div');
-  lDiv.className='msg-loading'; lDiv.textContent='Pensando...'; area.appendChild(lDiv);
+  const lDiv=document.createElement('div'); lDiv.className='msg-loading'; lDiv.textContent='Pensando...'; area.appendChild(lDiv);
   area.scrollTop=area.scrollHeight;
   CHAT_HISTORY.push({role:'user',content:q});
   try{
-    const res = await fetch('/api/claude',{
+    const res=await fetch('/api/claude',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
-        max_tokens:600,
-        system:`Eres un copiloto de salud amable y claro para pacientes colombianos. Hablas en español colombiano cotidiano, cálido y empático. Nunca usas jerga médica sin explicarla. Tus respuestas son concisas (máximo 4-5 oraciones). Cuando la pregunta implica una decisión de tratamiento, añades brevemente: "Consulta con tu médico para confirmar." Tienes acceso al historial completo del paciente.`,
-        messages: CHAT_HISTORY.slice(-10)
+        model:'claude-haiku-4-5-20251001',max_tokens:600,
+        system:'Eres HistorIA, un asistente de salud amable para pacientes colombianos. Hablas en español cotidiano, cálido y empático. Nunca usas jerga médica sin explicarla. Respuestas concisas máximo 4-5 oraciones. Si implica tratamiento añades: "Consulta con tu médico para confirmar."',
+        messages:CHAT_HISTORY.slice(-10)
       })
     });
-    const data = await res.json();
-    const reply = data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
+    const data=await res.json();
+    const reply=data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
     CHAT_HISTORY.push({role:'assistant',content:reply});
     lDiv.className='msg-bot'; lDiv.textContent=reply;
-  }catch(e){
-    lDiv.className='msg-bot'; lDiv.textContent='Tuve un problema al conectarme. Intenta de nuevo.';
-  }
+  }catch(e){ lDiv.className='msg-bot'; lDiv.textContent='Tuve un problema. Intenta de nuevo.'; }
   area.scrollTop=area.scrollHeight;
 }
+
+// Drag & drop
+const dz=document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--accent)';dz.style.background='var(--accent-l)';});
+dz.addEventListener('dragleave',()=>{dz.style.borderColor='';dz.style.background='';});
+dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';dz.style.background='';const f=e.dataTransfer.files[0];if(f){document.getElementById('file-in').files=e.dataTransfer.files;handleFile({target:{files:e.dataTransfer.files}});}});
 
 loadStored();
 </script>
