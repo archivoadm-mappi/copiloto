@@ -273,31 +273,46 @@ function goTo(name,btn){
 
 async function handleFile(e){
   const file = e.target.files[0];
-  if(!file) return;
-  document.getElementById('file-name-txt').textContent = file.name;
-  document.getElementById('file-pill').style.display = 'flex';
-  if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
-    script.onload = async function(){
-      try{
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-        const ab = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({data:ab}).promise;
-        let txt = '';
-        for(let i=1;i<=pdf.numPages;i++){
-          const pg = await pdf.getPage(i);
-          const ct = await pg.getTextContent();
-          txt += ct.items.map(x=>x.str).join(' ')+'\n';
-        }
-        HC_TEXT = txt;
-      }catch(err){ alert('No se pudo leer el PDF. Intenta con un PDF de texto, no escaneado.'); }
-    };
-    if(!window.pdfjsLib) document.head.appendChild(script); else script.onload();
+  if(!file){ return; }
+  // Mostrar píldora inmediatamente
+  const pill = document.getElementById("file-pill");
+  const nameEl = document.getElementById("file-name-txt");
+  nameEl.textContent = file.name;
+  pill.style.cssText = "display:flex!important;align-items:center;gap:8px;background:var(--accent-l);border:1px solid #9FE1CB;border-radius:var(--rs);padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--accent-d)";
+  nameEl.textContent = file.name + " — leyendo...";
+  if(file.type==="application/pdf" || file.name.toLowerCase().endsWith(".pdf")){
+    try{
+      if(!window.pdfjsLib){
+        await new Promise((resolve,reject)=>{
+          const s=document.createElement("script");
+          s.src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js";
+          s.onload=resolve; s.onerror=reject;
+          document.head.appendChild(s);
+        });
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+      const ab = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data:ab}).promise;
+      let txt="";
+      for(let i=1;i<=pdf.numPages;i++){
+        const pg=await pdf.getPage(i);
+        const ct=await pg.getTextContent();
+        txt+=ct.items.map(x=>x.str).join(" ")+"\n";
+      }
+      HC_TEXT=txt;
+      nameEl.textContent = file.name + " ✓ listo para analizar (" + pdf.numPages + " páginas)";
+    }catch(err){
+      nameEl.textContent = file.name + " — error al leer";
+      pill.style.background="var(--danger-l)";
+      alert("No se pudo leer el PDF automaticamente.\n\nSolución: Abre el PDF, selecciona todo (Ctrl+A), copia (Ctrl+C) y pega en la app.");
+    }
   } else {
-    const reader = new FileReader();
-    reader.onload = ev => { HC_TEXT = ev.target.result; };
-    reader.readAsText(file);
+    await new Promise(resolve=>{
+      const reader=new FileReader();
+      reader.onload=ev=>{ HC_TEXT=ev.target.result; resolve(); };
+      reader.readAsText(file);
+    });
+    nameEl.textContent = file.name + " ✓ listo";
   }
 }
 
@@ -516,18 +531,4 @@ async function sendChat(){
     const data=await res.json();
     const reply=data.content.filter(c=>c.type==='text').map(c=>c.text).join('');
     CHAT_HISTORY.push({role:'assistant',content:reply});
-    lDiv.className='msg-bot'; lDiv.textContent=reply;
-  }catch(e){ lDiv.className='msg-bot'; lDiv.textContent='Tuve un problema. Intenta de nuevo.'; }
-  area.scrollTop=area.scrollHeight;
-}
-
-// Drag & drop
-const dz=document.getElementById('drop-zone');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--accent)';dz.style.background='var(--accent-l)';});
-dz.addEventListener('dragleave',()=>{dz.style.borderColor='';dz.style.background='';});
-dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';dz.style.background='';const f=e.dataTransfer.files[0];if(f){document.getElementById('file-in').files=e.dataTransfer.files;handleFile({target:{files:e.dataTransfer.files}});}});
-
-loadStored();
-</script>
-</body>
-</html>
+    lDiv.className='msg-bot'; lDiv.textContent=r
